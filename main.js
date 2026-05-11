@@ -1,69 +1,88 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
-const fs = require('fs');
+const { app, BrowserWindow, ipcMain, screen } = require('electron');
+const path = require('path');
+
 let mainWindow;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({
-    width: 1540, height: 940, minWidth: 1180, minHeight: 720,
-    backgroundColor: '#00000000',
-    title: 'MAHVEGATOR',
-    autoHideMenuBar: true,
-    frame: false,
-    transparent: true,
-    hasShadow: true,
-    webPreferences: {
-      preload: __dirname + '/preload.js',
-      nodeIntegration: false,
-      contextIsolation: true,
-      webviewTag: true
-    }
-  });
-  mainWindow.loadFile('index.html');
+
+    const primaryDisplay = screen.getPrimaryDisplay();
+    const { width, height } = primaryDisplay.workAreaSize;
+
+    mainWindow = new BrowserWindow({
+
+        width: Math.min(1400, width),
+        height: Math.min(900, height),
+
+        minWidth: 1200,
+        minHeight: 700,
+
+        frame: false,
+        transparent: true,              // ESSENCIAL para cantos redondos!
+        backgroundColor: '#00000000',   // Fundo completamente transparente
+
+        hasShadow: false,
+
+        resizable: true,
+        maximizable: true,
+        minimizable: true,
+        fullscreenable: false,
+
+        show: false,
+
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            devTools: true,
+            webviewTag: true            // ADICIONADO para suporte a webview
+        }
+    });
+
+    mainWindow.loadFile('index.html');
+
+    // MOSTRAR SOMENTE QUANDO CARREGAR
+    mainWindow.once('ready-to-show', () => {
+        mainWindow.show();
+    });
+
+    // REMOVER FUNDO BRANCO AO REDIMENSIONAR
+    mainWindow.setBackgroundColor('#00000000');
+
+    // IPC BOTÕES DA JANELA (CORRIGIDO os nomes)
+    ipcMain.on('window-minimize', () => {
+        mainWindow.minimize();
+    });
+
+    ipcMain.on('window-maximize', () => {
+        if (mainWindow.isMaximized()) {
+            mainWindow.unmaximize();
+        } else {
+            mainWindow.maximize();
+        }
+    });
+
+    ipcMain.on('window-close', () => {
+        mainWindow.close();
+    });
+
+    // ABRIR DEVTOOLS (OPCIONAL - descomente se precisar)
+    // mainWindow.webContents.openDevTools();
 }
 
-ipcMain.on('window:minimize', () => mainWindow?.minimize());
-ipcMain.on('window:maximize', () => {
-  if (!mainWindow) return;
-  if (mainWindow.isMaximized()) mainWindow.unmaximize();
-  else mainWindow.maximize();
-});
-ipcMain.on('window:close', () => mainWindow?.close());
+app.whenReady().then(() => {
 
-ipcMain.handle('bookmarks:importHtml', async () => {
-  const result = await dialog.showOpenDialog(mainWindow, {
-    title: 'Importar favoritos HTML',
-    filters: [{ name: 'Arquivo HTML de favoritos', extensions: ['html', 'htm'] }],
-    properties: ['openFile']
-  });
-  if (result.canceled || !result.filePaths?.[0]) return { canceled: true };
-  const html = fs.readFileSync(result.filePaths[0], 'utf8');
-  return { canceled: false, html };
+    createWindow();
+
+    app.on('activate', () => {
+
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createWindow();
+        }
+    });
 });
 
-ipcMain.handle('bookmarks:exportHtml', async (_event, favorites) => {
-  const result = await dialog.showSaveDialog(mainWindow, {
-    title: 'Exportar favoritos HTML',
-    defaultPath: 'mahvegator-favoritos.html',
-    filters: [{ name: 'Arquivo HTML', extensions: ['html'] }]
-  });
-  if (result.canceled || !result.filePath) return { canceled: true };
-  const now = Math.floor(Date.now() / 1000);
-  const safe = s => String(s || '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
-  const links = (favorites || []).map(f => `        <DT><A HREF="${safe(f.url)}" ADD_DATE="${now}">${safe(f.name || f.url)}</A>`).join('\n');
-  const html = `<!DOCTYPE NETSCAPE-Bookmark-file-1>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
-<TITLE>MAHVEGATOR Favoritos</TITLE>
-<H1>MAHVEGATOR Favoritos</H1>
-<DL><p>
-    <DT><H3 ADD_DATE="${now}" LAST_MODIFIED="${now}">Favoritos MAHVEGATOR</H3>
-    <DL><p>
-${links}
-    </DL><p>
-</DL><p>
-`;
-  fs.writeFileSync(result.filePath, html, 'utf8');
-  return { canceled: false, filePath: result.filePath };
-});
+app.on('window-all-closed', () => {
 
-app.whenReady().then(createWindow);
-app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});

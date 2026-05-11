@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAHVEGATOR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-skin="aurora">
+<div class="aurora-bg"></div><div class="grain"></div>
+<div class="window-shell">
+  <header class="topbar">
+    <button class="brand-logo-btn" id="brandHome" title="Início"><img src="assets/logo.png" alt="MAHVEGATOR"></button>
+    <div class="tabs" id="tabs"></div>
+    <button class="icon-btn mini" id="newTabBtn" data-icon="plus" title="Nova guia"></button>
+    <div class="win-spacer"></div>
+    <button class="window-btn" id="minBtn">—</button>
+    <button class="window-btn" id="maxBtn">□</button>
+    <button class="window-btn close" id="closeBtn">×</button>
+  </header>
+  <section class="toolbar">
+    <div class="nav-cluster">
+      <button class="orb-btn" id="backBtn" data-icon="back" title="Voltar"></button>
+      <button class="orb-btn" id="forwardBtn" data-icon="forward" title="Avançar"></button>
+      <button class="orb-btn" id="refreshBtn" data-icon="refresh" title="Atualizar"></button>
+    </div>
+    <div class="address-wrap"><span data-icon="search"></span><input id="addressInput" placeholder="Pesquisar ou digitar endereço" autocomplete="off"></div>
+    <div class="action-cluster">
+      <button class="orb-btn glow" id="favoriteBtn" data-icon="star" title="Adicionar aos favoritos"></button>
+      <button class="orb-btn" data-icon="download" title="Downloads"></button>
+      <button class="orb-btn" data-icon="shield" title="Privacidade"></button>
+      <button class="orb-btn" data-icon="user" title="Perfil"></button>
+      <button class="orb-btn" id="skinToggle" data-icon="palette" title="Trocar skin"></button>
+      <button class="orb-btn" data-icon="menu" title="Menu"></button>
+    </div>
+  </section>
+  <div class="content-grid">
+    <aside class="sidebar">
+      <button class="side-logo" id="homeLogoBtn" title="Início"><img src="assets/logo.png" alt="Logo"></button>
+      <button class="side-item active" id="homeBtn" title="Início"><span data-icon="home"></span></button>
+      <button class="side-item" id="favoritesFolderBtn" title="Favoritos"><span data-icon="folder"></span></button>
+      <button class="side-item" id="downloadsBtn" title="Downloads"><span data-icon="download"></span></button>
+      <div class="side-bottom"><button class="side-item" id="settingsBtn" title="Configurações"><span data-icon="settings"></span></button></div>
+    </aside>
+    <main class="browser-stage" id="browserStage">
+      <section class="home-stage active-home" id="homeStage">
+        <img class="main-logo full-logo" src="assets/logo-full.png" alt="MAHVEGATOR">
+        <div class="hero-search"><span data-icon="search"></span><input id="heroSearch" placeholder="Pesquisar na web..."><button class="search-action" id="heroGo" data-icon="sparkle"></button></div>
+        <section class="quick-area"><div class="quick-grid" id="quickGrid"></div></section>
+      </section>
+      <div class="webviews" id="webviews"></div>
+      <aside class="favorites-drawer panel" id="favoritesDrawer">
+        <div class="panel-head"><h3>Favoritos</h3><button class="icon-only" id="closeFavs">×</button></div>
+        <div class="fav-list" id="favList"></div>
+        <button class="primary-texture" id="addCurrentFav">Adicionar página atual</button>
+        <button class="secondary-texture" id="importFavHtml">Importar favoritos HTML</button>
+        <button class="secondary-texture" id="exportFavHtml">Exportar favoritos HTML</button>
+        <div class="fav-status" id="favStatus"></div>
+      </aside>
+    </main>
+    <aside class="skin-drawer panel" id="skinDrawer">
+      <div class="panel-head"><h3>Skins</h3><button class="icon-only" id="closeSkins">×</button></div>
+      <div class="skins">
+        <button class="skin-card selected" data-setskin="aurora"><i></i><span>Aurora</span></button>
+        <button class="skin-card" data-setskin="magenta"><i></i><span>Magenta</span></button>
+        <button class="skin-card" data-setskin="cyan"><i></i><span>Ciano</span></button>
+        <button class="skin-card" data-setskin="steel"><i></i><span>Aço escovado</span></button>
+        <button class="skin-card" data-setskin="violet"><i></i><span>Violeta</span></button>
+        <button class="skin-card" data-setskin="rose"><i></i><span>Ouro rosa</span></button>
+      </div>
+      <button class="primary-texture" id="applySkin">Aplicar skin</button>
+    </aside>
+  </div>
+</div>
+<script src="icons.js"></script><script src="renderer.js"></script>
+</body>
+</html>

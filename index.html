@@ -1,18 +1,47 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" style="background: transparent !important;">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MAHVEGATOR</title>
+<link rel="icon" type="image/x-icon" href="assets/mahvegator.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/window.css">
+<link rel="stylesheet" href="css/favorites.css">
+<link rel="stylesheet" href="css/skins.css">
+<style>
+  /* FORÇAR TRANSPARÊNCIA TOTAL */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  html, body {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+  .window-shell {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  .aurora-bg {
+    background: radial-gradient(circle at 14% 36%, color-mix(in srgb, var(--mag) 50%, transparent), transparent 24%),
+                radial-gradient(circle at 76% 23%, color-mix(in srgb, var(--cyan) 30%, transparent), transparent 28%),
+                radial-gradient(circle at 55% 86%, color-mix(in srgb, var(--mag) 32%, transparent), transparent 32%),
+                linear-gradient(135deg, var(--bg1), var(--bg2) 62%, #090516) !important;
+  }
+</style>
 </head>
-<body data-skin="aurora">
+<body data-skin="aurora" style="background: transparent !important;">
 <div class="aurora-bg"></div><div class="grain"></div>
 <div class="window-shell">
   <header class="topbar">
-    <button class="brand-logo-btn" id="brandHome" title="Início"><img src="assets/logo.png" alt="MAHVEGATOR"></button>
+    <button class="brand-logo-btn" id="brandHome" title="Início"><img src="assets/logotipo_M_prata.png" alt="MAHVEGATOR"></button>
     <div class="tabs" id="tabs"></div>
     <button class="icon-btn mini" id="newTabBtn" data-icon="plus" title="Nova guia"></button>
     <div class="win-spacer"></div>
@@ -26,28 +55,33 @@
       <button class="orb-btn" id="forwardBtn" data-icon="forward" title="Avançar"></button>
       <button class="orb-btn" id="refreshBtn" data-icon="refresh" title="Atualizar"></button>
     </div>
-    <div class="address-wrap"><span data-icon="search"></span><input id="addressInput" placeholder="Pesquisar ou digitar endereço" autocomplete="off"></div>
+    <div class="address-wrap">
+      <input id="addressInput" placeholder="Pesquisar ou digitar endereço" autocomplete="off">
+    </div>
     <div class="action-cluster">
       <button class="orb-btn glow" id="favoriteBtn" data-icon="star" title="Adicionar aos favoritos"></button>
-      <button class="orb-btn" data-icon="download" title="Downloads"></button>
-      <button class="orb-btn" data-icon="shield" title="Privacidade"></button>
-      <button class="orb-btn" data-icon="user" title="Perfil"></button>
+      <button class="orb-btn" id="downloadsBtn" data-icon="download" title="Downloads"></button>
+      <button class="orb-btn" id="privacyBtn" data-icon="shield" title="Privacidade"></button>
+      <button class="orb-btn" id="profileBtn" data-icon="user" title="Perfil"></button>
       <button class="orb-btn" id="skinToggle" data-icon="palette" title="Trocar skin"></button>
-      <button class="orb-btn" data-icon="menu" title="Menu"></button>
+      <button class="orb-btn" id="menuBtn" data-icon="menu" title="Menu"></button>
     </div>
   </section>
   <div class="content-grid">
     <aside class="sidebar">
-      <button class="side-logo" id="homeLogoBtn" title="Início"><img src="assets/logo.png" alt="Logo"></button>
+      <button class="side-logo" id="homeLogoBtn" title="Início"><img src="assets/logotipo_M_prata.png" alt="Logo"></button>
       <button class="side-item active" id="homeBtn" title="Início"><span data-icon="home"></span></button>
       <button class="side-item" id="favoritesFolderBtn" title="Favoritos"><span data-icon="folder"></span></button>
-      <button class="side-item" id="downloadsBtn" title="Downloads"><span data-icon="download"></span></button>
+      <button class="side-item" id="downloadsSideBtn" title="Downloads"><span data-icon="download"></span></button>
       <div class="side-bottom"><button class="side-item" id="settingsBtn" title="Configurações"><span data-icon="settings"></span></button></div>
     </aside>
     <main class="browser-stage" id="browserStage">
       <section class="home-stage active-home" id="homeStage">
-        <img class="main-logo full-logo" src="assets/logo-full.png" alt="MAHVEGATOR">
-        <div class="hero-search"><span data-icon="search"></span><input id="heroSearch" placeholder="Pesquisar na web..."><button class="search-action" id="heroGo" data-icon="sparkle"></button></div>
+        <img class="main-logo full-logo" src="assets/logo_prata.png" alt="MAHVEGATOR">
+        <div class="hero-search">
+          <input id="heroSearch" placeholder="Pesquisar na web...">
+          <button class="orb-btn" id="heroGo" data-icon="search" title="Buscar"></button>
+        </div>
         <section class="quick-area"><div class="quick-grid" id="quickGrid"></div></section>
       </section>
       <div class="webviews" id="webviews"></div>
@@ -55,25 +89,42 @@
         <div class="panel-head"><h3>Favoritos</h3><button class="icon-only" id="closeFavs">×</button></div>
         <div class="fav-list" id="favList"></div>
         <button class="primary-texture" id="addCurrentFav">Adicionar página atual</button>
-        <button class="secondary-texture" id="importFavHtml">Importar favoritos HTML</button>
-        <button class="secondary-texture" id="exportFavHtml">Exportar favoritos HTML</button>
+        <button class="secondary-texture" id="importFavHtml">📥 Importar favoritos HTML</button>
+        <button class="secondary-texture" id="exportFavHtml">📤 Exportar favoritos HTML</button>
         <div class="fav-status" id="favStatus"></div>
       </aside>
     </main>
     <aside class="skin-drawer panel" id="skinDrawer">
       <div class="panel-head"><h3>Skins</h3><button class="icon-only" id="closeSkins">×</button></div>
       <div class="skins">
-        <button class="skin-card selected" data-setskin="aurora"><i></i><span>Aurora</span></button>
-        <button class="skin-card" data-setskin="magenta"><i></i><span>Magenta</span></button>
-        <button class="skin-card" data-setskin="cyan"><i></i><span>Ciano</span></button>
-        <button class="skin-card" data-setskin="steel"><i></i><span>Aço escovado</span></button>
-        <button class="skin-card" data-setskin="violet"><i></i><span>Violeta</span></button>
-        <button class="skin-card" data-setskin="rose"><i></i><span>Ouro rosa</span></button>
+        <button class="skin-card selected" data-setskin="aurora"><span>Aurora</span></button>
+        <button class="skin-card" data-setskin="magenta"><span>Magenta</span></button>
+        <button class="skin-card" data-setskin="cyan"><span>Ciano</span></button>
+        <button class="skin-card" data-setskin="steel"><span>Aço</span></button>
+        <button class="skin-card" data-setskin="violet"><span>Violeta</span></button>
+        <button class="skin-card" data-setskin="rose"><span>Rosa</span></button>
+        <button class="skin-card" data-setskin="sunset"><span>Pôr do Sol</span></button>
+        <button class="skin-card" data-setskin="ocean"><span>Oceano</span></button>
+        <button class="skin-card" data-setskin="forest"><span>Floresta</span></button>
+        <button class="skin-card" data-setskin="midnight"><span>Meia-Noite</span></button>
+        <button class="skin-card" data-setskin="cherry"><span>Cereja</span></button>
+        <button class="skin-card" data-setskin="lime"><span>Limão</span></button>
+        <button class="skin-card" data-setskin="grape"><span>Uva</span></button>
+        <button class="skin-card" data-setskin="copper"><span>Cobre</span></button>
+        <button class="skin-card" data-setskin="neon"><span>Neon</span></button>
+        <button class="skin-card" data-setskin="coral"><span>Coral</span></button>
+        <button class="skin-card" data-setskin="indigo"><span>Anil</span></button>
+        <button class="skin-card" data-setskin="gold"><span>Ouro</span></button>
+        <button class="skin-card" data-setskin="mint"><span>Menta</span></button>
+        <button class="skin-card" data-setskin="lavender"><span>Lavanda</span></button>
+        <button class="skin-card" data-setskin="peach"><span>Pêssego</span></button>
+        <button class="skin-card" data-setskin="ice"><span>Gelo</span></button>
       </div>
       <button class="primary-texture" id="applySkin">Aplicar skin</button>
     </aside>
   </div>
 </div>
-<script src="icons.js"></script><script src="renderer.js"></script>
+<script src="icons.js"></script>
+<script src="renderer.js"></script>
 </body>
 </html>
