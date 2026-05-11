@@ -1,0 +1,12 @@
+MAHVEGATOR V6
+
+Correções:
+- Sites agora abrem dentro da área principal do MAHVEGATOR.
+- Removida área de notícias e temperatura.
+- Menu lateral só com ícones.
+- Skins ficam ocultas e abrem pelo botão de paleta/configuração.
+- Skins mostram prévia e aplicam instantaneamente ao clicar.
+- Logo principal usa a imagem enviada.
+
+Execute:
+ABRIR_MAHVEGATOR.cmd

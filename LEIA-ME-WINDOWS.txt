@@ -1,0 +1,41 @@
+MAHVEGATOR V7 Windows
+
+Teste:
+ABRIR_MAHVEGATOR_WINDOWS.bat
+
+Gerar instalador:
+GERAR_EXE_WINDOWS.bat
+
+Incluído:
+- Estrela como gerenciador de favoritos
+- Adicionar página atual
+- Importar favoritos HTML
+- Exportar favoritos HTML
+- Janela sem moldura padrão do Windows
+- Botões próprios de minimizar/maximizar/fechar
+- Cantos externos arredondados
+
+
+V7.1:
+- Logotipo superior esquerdo maior, centralizado e com fundo transparente.
+- Removido o primeiro botão lateral sem função.
+- Ícones laterais puxados para cima.
+- Lista de favoritos redesenhada em estilo delicado, compacto e tipo explorer.
+- Menos negrito e menos visual grosseiro.
+- Tentativa adicional de reduzir aparência de janela quadrada externa.
+
+
+V7.2:
+- Corrigido o logotipo do canto superior esquerdo usando exatamente a imagem logotipo_M.png enviada.
+- Corrigido o fundo que causava aparência de cantos quadrados fora da janela.
+- Janela, fundo e camada de brilho agora usam clip-path com border-radius.
+
+
+MAHVEGATOR V1:
+- Mantida a versão do produto como V1.
+- Página inicial mais clean com o logo completo fornecido.
+- Removidos cards quadrados com cantos arredondados da home.
+- Favoritos exibidos somente como ícones.
+- Campo de busca com botão X para limpar.
+- Busca padrão sem Google: DuckDuckGo.
+- Opções de busca: DuckDuckGo, Perplexity, Brave Search e You.com.

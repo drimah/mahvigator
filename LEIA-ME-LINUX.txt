@@ -1,0 +1,35 @@
+MAHVEGATOR V6.2 Linux
+
+Melhorias incluídas:
+- Janela sem borda do sistema: agora só aparecem os botões do MAHVEGATOR.
+- Cantos externos arredondados.
+- Logotipo no canto superior esquerdo em tamanho de botão.
+- Ícones laterais em círculos.
+- Pasta de favoritos no menu lateral.
+- Adicionar favoritos funcionando.
+- Favoritos salvos localmente.
+- Botão + criando nova guia.
+- Abas clicáveis e fecháveis.
+- Sites abrindo dentro da área principal do MAHVEGATOR.
+
+Para abrir:
+chmod +x ABRIR_MAHVEGATOR_LINUX.sh
+./ABRIR_MAHVEGATOR_LINUX.sh
+
+Para gerar AppImage/.deb:
+chmod +x GERAR_APP_LINUX.sh
+./GERAR_APP_LINUX.sh
+
+
+V6.4:
+- Logo superior esquerdo agora usa fundo transparente real.
+
+
+V6.5:
+- Corrigido o logotipo para o modelo exato indicado: M circular neon com fundo transparente.
+
+
+V6.6:
+- Logotipo corrigido a partir da imagem em alta resolução.
+- Removido o texto MAHVEGATOR do arquivo de logo.
+- Mantido apenas o M circular centralizado com fundo transparente.
