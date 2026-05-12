@@ -13,28 +13,10 @@
 <link rel="stylesheet" href="css/favorites.css">
 <link rel="stylesheet" href="css/skins.css">
 <style>
-  /* FORÇAR TRANSPARÊNCIA TOTAL */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  html, body {
-    background: transparent !important;
-    background-color: transparent !important;
-    background-image: none !important;
-  }
-  .window-shell {
-    background: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-  .aurora-bg {
-    background: radial-gradient(circle at 14% 36%, color-mix(in srgb, var(--mag) 50%, transparent), transparent 24%),
-                radial-gradient(circle at 76% 23%, color-mix(in srgb, var(--cyan) 30%, transparent), transparent 28%),
-                radial-gradient(circle at 55% 86%, color-mix(in srgb, var(--mag) 32%, transparent), transparent 32%),
-                linear-gradient(135deg, var(--bg1), var(--bg2) 62%, #090516) !important;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: transparent !important; background-color: transparent !important; background-image: none !important; }
+  .window-shell { background: transparent !important; box-shadow: none !important; border: none !important; }
+  .aurora-bg { background: radial-gradient(circle at 14% 36%, color-mix(in srgb, var(--mag) 50%, transparent), transparent 24%), radial-gradient(circle at 76% 23%, color-mix(in srgb, var(--cyan) 30%, transparent), transparent 28%), radial-gradient(circle at 55% 86%, color-mix(in srgb, var(--mag) 32%, transparent), transparent 32%), linear-gradient(135deg, var(--bg1), var(--bg2) 62%, #090516) !important; }
 </style>
 </head>
 <body data-skin="aurora" style="background: transparent !important;">
@@ -60,11 +42,8 @@
     </div>
     <div class="action-cluster">
       <button class="orb-btn glow" id="favoriteBtn" data-icon="star" title="Adicionar aos favoritos"></button>
-      <button class="orb-btn" id="downloadsBtn" data-icon="download" title="Downloads"></button>
-      <button class="orb-btn" id="privacyBtn" data-icon="shield" title="Privacidade"></button>
-      <button class="orb-btn" id="profileBtn" data-icon="user" title="Perfil"></button>
+      <button class="orb-btn" id="manageFavBtn" data-icon="cog" title="Gerenciar favoritos"></button>
       <button class="orb-btn" id="skinToggle" data-icon="palette" title="Trocar skin"></button>
-      <button class="orb-btn" id="menuBtn" data-icon="menu" title="Menu"></button>
     </div>
   </section>
   <div class="content-grid">
@@ -72,7 +51,6 @@
       <button class="side-logo" id="homeLogoBtn" title="Início"><img src="assets/logotipo_M_prata.png" alt="Logo"></button>
       <button class="side-item active" id="homeBtn" title="Início"><span data-icon="home"></span></button>
       <button class="side-item" id="favoritesFolderBtn" title="Favoritos"><span data-icon="folder"></span></button>
-      <button class="side-item" id="downloadsSideBtn" title="Downloads"><span data-icon="download"></span></button>
       <div class="side-bottom"><button class="side-item" id="settingsBtn" title="Configurações"><span data-icon="settings"></span></button></div>
     </aside>
     <main class="browser-stage" id="browserStage">
@@ -89,8 +67,8 @@
         <div class="panel-head"><h3>Favoritos</h3><button class="icon-only" id="closeFavs">×</button></div>
         <div class="fav-list" id="favList"></div>
         <button class="primary-texture" id="addCurrentFav">Adicionar página atual</button>
-        <button class="secondary-texture" id="importFavHtml">📥 Importar favoritos HTML</button>
-        <button class="secondary-texture" id="exportFavHtml">📤 Exportar favoritos HTML</button>
+        <button class="secondary-texture" id="importFavHtml">Importar favoritos HTML</button>
+        <button class="secondary-texture" id="exportFavHtml">Exportar favoritos HTML</button>
         <div class="fav-status" id="favStatus"></div>
       </aside>
     </main>
@@ -122,6 +100,11 @@
       </div>
       <button class="primary-texture" id="applySkin">Aplicar skin</button>
     </aside>
+  </div>
+  <!-- MENU GERENCIAR FAVORITOS -->
+  <div class="manage-fav-menu" id="manageFavMenu">
+    <button id="importFavHtmlMenu">Importar favoritos HTML</button>
+    <button id="exportFavHtmlMenu">Exportar favoritos HTML</button>
   </div>
 </div>
 <script src="icons.js"></script>

@@ -2,6 +2,7 @@ const icons = {
   search: '<i class="fas fa-search"></i>',
   home: '<i class="fas fa-home"></i>',
   folder: '<i class="fas fa-folder"></i>',
+  'folder-open': '<i class="fas fa-folder-open"></i>',
   star: '<i class="fas fa-star"></i>',
   download: '<i class="fas fa-download"></i>',
   shield: '<i class="fas fa-shield-alt"></i>',
@@ -13,5 +14,6 @@ const icons = {
   forward: '<i class="fas fa-arrow-right"></i>',
   refresh: '<i class="fas fa-sync-alt"></i>',
   sparkle: '<i class="fas fa-magic"></i>',
-  settings: '<i class="fas fa-cog"></i>'
+  settings: '<i class="fas fa-cog"></i>',
+  cog: '<i class="fas fa-cog"></i>'
 };

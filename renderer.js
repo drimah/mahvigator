@@ -50,7 +50,6 @@ function renderTabs(){
   tabs.forEach(t=>{
     const el=document.createElement('div');
     el.className='tab'+(t.id===activeTabId?' active':''); el.dataset.tabId=t.id;
-    // SPARKLE REMOVIDO - NÃO TEM MAIS ÍCONE NAS ABAS
     el.innerHTML='<span class="tab-title">'+t.title+'</span><button class="tab-close">×</button>';
     tabsEl.appendChild(el);
   });
@@ -197,28 +196,20 @@ document.getElementById('heroGo').onclick=()=>openUrlInTab(heroSearch.value);
 
 document.getElementById('backBtn').onclick=()=>{ 
   const w=activeWebview(); 
-  if(w && w.canGoBack && w.canGoBack()) { 
-    w.goBack(); 
-  }
+  if(w && w.canGoBack && w.canGoBack()) { w.goBack(); }
 };
 
 document.getElementById('forwardBtn').onclick=()=>{ 
   const w=activeWebview(); 
-  if(w && w.canGoForward && w.canGoForward()) { 
-    w.goForward(); 
-  }
+  if(w && w.canGoForward && w.canGoForward()) { w.goForward(); }
 };
 
 document.getElementById('refreshBtn').onclick=()=>{ 
   const w=activeWebview(); 
-  if(webviewsContainer.classList.contains('active') && w && w.reload) { 
-    w.reload(); 
-  } 
+  if(webviewsContainer.classList.contains('active') && w && w.reload) { w.reload(); } 
 };
 
-homeBtn.onclick=goHome; 
-brandHome.onclick=goHome; 
-homeLogoBtn.onclick=goHome;
+homeBtn.onclick=goHome; brandHome.onclick=goHome; homeLogoBtn.onclick=goHome;
 document.getElementById('newTabBtn').onclick=()=>createTab();
 
 tabsEl.onclick=e=>{ 
@@ -250,9 +241,7 @@ document.getElementById('skinToggle').onclick=()=>{
 document.getElementById('closeSkins').onclick=()=>skinDrawer.classList.remove('open');
 
 const settingsBtn = document.getElementById('settingsBtn');
-if(settingsBtn) {
-  settingsBtn.style.display = 'none';
-}
+if(settingsBtn) { settingsBtn.style.display = 'none'; }
 
 let selectedSkin=document.body.dataset.skin||'aurora'; 
 document.querySelectorAll('.skin-card').forEach(card=>card.onclick=()=>{ 
@@ -270,34 +259,22 @@ document.getElementById('applySkin').onclick=()=>{
 
 document.getElementById('minBtn').onclick=()=>{
   try {
-    if(window.mahWindow?.minimize) {
-      window.mahWindow.minimize();
-    } else if(window.require) {
-      const { ipcRenderer } = window.require('electron');
-      ipcRenderer.send('window-minimize');
-    }
+    if(window.mahWindow?.minimize) window.mahWindow.minimize();
+    else if(window.require) { const { ipcRenderer } = window.require('electron'); ipcRenderer.send('window-minimize'); }
   } catch(e) { console.log('Erro ao minimizar'); }
 };
 
 document.getElementById('maxBtn').onclick=()=>{
   try {
-    if(window.mahWindow?.maximize) {
-      window.mahWindow.maximize();
-    } else if(window.require) {
-      const { ipcRenderer } = window.require('electron');
-      ipcRenderer.send('window-maximize');
-    }
+    if(window.mahWindow?.maximize) window.mahWindow.maximize();
+    else if(window.require) { const { ipcRenderer } = window.require('electron'); ipcRenderer.send('window-maximize'); }
   } catch(e) { console.log('Erro ao maximizar'); }
 };
 
 document.getElementById('closeBtn').onclick=()=>{
   try {
-    if(window.mahWindow?.close) {
-      window.mahWindow.close();
-    } else if(window.require) {
-      const { ipcRenderer } = window.require('electron');
-      ipcRenderer.send('window-close');
-    }
+    if(window.mahWindow?.close) window.mahWindow.close();
+    else if(window.require) { const { ipcRenderer } = window.require('electron'); ipcRenderer.send('window-close'); }
   } catch(e) { console.log('Erro ao fechar'); }
 };
 
@@ -308,6 +285,8 @@ if(savedSkin){
   document.querySelectorAll('.skin-card').forEach(c=>c.classList.toggle('selected',c.dataset.setskin===savedSkin)); 
 }
 
+// ========== FUNÇÕES DA GALERIA ==========
+
 function criarGaleria() {
   if (!document.getElementById('iconGallery')) {
     const gallery = document.createElement('div');
@@ -315,10 +294,7 @@ function criarGaleria() {
     gallery.className = 'icon-gallery';
     gallery.innerHTML = `<div id="galleryGrid" class="gallery-grid"></div>`;
     document.querySelector('.browser-stage').appendChild(gallery);
-    
-    gallery.addEventListener('click', (e) => {
-      if (e.target === gallery) closeIconGallery();
-    });
+    gallery.addEventListener('click', (e) => { if (e.target === gallery) closeIconGallery(); });
   }
 }
 
@@ -332,6 +308,19 @@ function removerFavoritoPorUrl(url) {
   }
 }
 
+function editarNomeFavorito(index) {
+  const novoNome = prompt('✏️ Editar nome do favorito:', favorites[index].name);
+  if (novoNome && novoNome.trim()) {
+    favorites[index].name = novoNome.trim();
+    saveFavorites();
+    renderFavorites();
+    renderIconGallery();
+    setFavStatus(`✅ Renomeado para "${novoNome.trim()}"`);
+  }
+}
+
+let dragSourceIndex = null;
+
 function renderIconGallery() {
   criarGaleria();
   const grid = document.getElementById('galleryGrid');
@@ -343,16 +332,18 @@ function renderIconGallery() {
   }
   
   grid.innerHTML = favorites.map((fav, idx) => `
-    <div class="gallery-icon-item" data-url="${fav.url}" data-index="${idx}">
+    <div class="gallery-icon-item" data-url="${fav.url}" data-index="${idx}" draggable="true">
       <div class="gallery-icon-remove" data-url="${fav.url}">✕</div>
       <img class="gallery-icon-img" src="https://www.google.com/s2/favicons?domain=${fav.url}&sz=64" alt="${fav.name}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2752%27 height=%2752%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%23ffffff%27 stroke-width=%272%27%3E%3Cpath d=%27M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z%27/%3E%3Cpath d=%27M22 6l-10 7L2 6%27/%3E%3C/svg%3E'">
-      <span class="gallery-icon-name">${fav.name}</span>
+      <span class="gallery-icon-name" data-index="${idx}">${fav.name}</span>
     </div>
   `).join('');
   
+  // Clique no ícone para abrir o site
   document.querySelectorAll('.gallery-icon-item').forEach(item => {
     item.addEventListener('click', (e) => {
       if (e.target.classList.contains('gallery-icon-remove')) return;
+      if (e.target.classList.contains('gallery-icon-name')) return;
       e.stopPropagation();
       const url = item.dataset.url;
       if (url) {
@@ -362,11 +353,62 @@ function renderIconGallery() {
     });
   });
   
+  // Botão de remover
   document.querySelectorAll('.gallery-icon-remove').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const url = btn.dataset.url;
       removerFavoritoPorUrl(url);
+    });
+  });
+  
+  // Duplo clique no nome para editar
+  document.querySelectorAll('.gallery-icon-name').forEach(el => {
+    el.addEventListener('dblclick', (e) => {
+      e.stopPropagation();
+      const index = parseInt(el.dataset.index);
+      editarNomeFavorito(index);
+    });
+  });
+  
+  // DRAG AND DROP para reorganizar
+  const items = document.querySelectorAll('.gallery-icon-item');
+  items.forEach(item => {
+    item.addEventListener('dragstart', (e) => {
+      dragSourceIndex = parseInt(item.dataset.index);
+      item.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', dragSourceIndex);
+    });
+    
+    item.addEventListener('dragend', (e) => {
+      item.classList.remove('dragging');
+      dragSourceIndex = null;
+    });
+    
+    item.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+    });
+    
+    item.addEventListener('dragenter', (e) => {
+      item.classList.add('drag-over');
+    });
+    
+    item.addEventListener('dragleave', (e) => {
+      item.classList.remove('drag-over');
+    });
+    
+    item.addEventListener('drop', (e) => {
+      e.preventDefault();
+      item.classList.remove('drag-over');
+      const targetIndex = parseInt(item.dataset.index);
+      if (dragSourceIndex !== null && dragSourceIndex !== targetIndex) {
+        const [movedItem] = favorites.splice(dragSourceIndex, 1);
+        favorites.splice(targetIndex, 0, movedItem);
+        saveFavorites();
+        renderIconGallery();
+      }
     });
   });
 }
@@ -403,6 +445,7 @@ function setFavStatus(msg){
   setTimeout(() => { if(el) el.textContent = ''; }, 3000);
 }
 
+// ========== IMPORTAR/EXPORTAR ==========
 const importBtn = document.getElementById('importFavHtml');
 if(importBtn){
   importBtn.addEventListener('click', async () => {
@@ -437,6 +480,39 @@ if(exportBtn){
     } catch (err) {
       setFavStatus('Erro ao exportar: ' + err.message);
     }
+  });
+}
+
+// ========== MENU GERENCIAR FAVORITOS ==========
+const manageFavBtn = document.getElementById('manageFavBtn');
+const manageFavMenu = document.getElementById('manageFavMenu');
+
+if (manageFavBtn && manageFavMenu) {
+  manageFavBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    manageFavMenu.classList.toggle('open');
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (!manageFavBtn.contains(e.target) && !manageFavMenu.contains(e.target)) {
+      manageFavMenu.classList.remove('open');
+    }
+  });
+}
+
+const importMenuBtn = document.getElementById('importFavHtmlMenu');
+if (importMenuBtn) {
+  importMenuBtn.addEventListener('click', () => {
+    manageFavMenu.classList.remove('open');
+    document.getElementById('importFavHtml').click();
+  });
+}
+
+const exportMenuBtn = document.getElementById('exportFavHtmlMenu');
+if (exportMenuBtn) {
+  exportMenuBtn.addEventListener('click', () => {
+    manageFavMenu.classList.remove('open');
+    document.getElementById('exportFavHtml').click();
   });
 }
 
